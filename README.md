@@ -1,1 +1,0 @@
-Sean Deitrich's class notes for OMSCS Computer Graphics Specialization masters degree.
