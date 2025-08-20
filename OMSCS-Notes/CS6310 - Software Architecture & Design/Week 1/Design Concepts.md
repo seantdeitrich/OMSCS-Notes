@@ -1,3 +1,4 @@
+# Design Concepts
 ## Basic Definitions
 **Software Design** - the process of building a program while satisfying a problem's functional requirements, and not violating its non-functional constraints.
 - Design - Deliberative, purposive planning
@@ -30,3 +31,56 @@ Note that when designing, it's easy to focus on function behavior and more diffi
 - Design determines how the project will function
 
 Design Documentation is also essential. Scale and complexity must have good design documentation.
+- Military organizations require formal documentation
+- Small exploratory research teams may not need it
+
+Traditional **Design Documentation** includes all **Design Rationale**:
+- Subcomponents
+- Processes and Activities
+- Data and Data Flow
+- Control Flow and Regime
+- Performance Considerations and Resource Consumption
+- Dependencies amongst components
+- Tradeoffs among non-functional constraints
+- Assumptions about users, hardware, and customer base
+- Stakeholders
+- Issues during the course of design 
+	- Possible resolutions, analyses of those solutions, rationales, impacts, and conflicts
+- Temporal relations
+	- Histories, versions, schedules, transformations, revisions, releases, and variants
+- Constraints
+	- Internal, external, requirements, and specifications
+- Aggregates
+	- Configurations, packages, and components
+
+**Design Decisions** are explicit choices of how to trade off two non-functional aspects of a design, such as speed versus size.
+
+**Coupling** - the extent to which components depend on each other for successful execution
+- Aim for low coupling
+- Changes to one module should not affect other modules
+- Java's package support is a good for reducing coupling
+	- It allows programmers to only import the necessary dependencies
+- Java's class inheritance mechanics actually increase coupling, because the child class depends on the parent class.
+
+**Cohesion** - The extent to which a component has a single purpose or function
+- High cohesion is good
+
+Note: The video states that the Java packages system reduces coupling but does not increase cohesion. I believe this to be false since different classes can be packaged together to produce a cohesive package with one function.
+
+**Information Hiding** - Encapsulating the capabilities that a particular module has behind an abstract interface. It seems like this is the same as abstraction.
+- If you're dealing with a system that has access to many hardware devices, hiding access to those devices behind an abstract interface is an example of information hiding.
+
+**Abstraction Mechanisms** 
+- **Declaration (Declarative)** defines what something does, but now how it is implemented
+- **Aggregation** defines a container, but not the contents of the container
+- **Generalization** allows abstraction of special cases, this is found in the class hierarchy of OOPLs
+- **Parameterization** allow abstraction of various possible values and function calls
+- **Non-determinism** leaves choices unspecified
+
+**Design Philosophy**
+- Use Models
+- Understand social context of design solutions (User-Centered Design)
+- Consider different tools for accomplishing goals
+- Use language, vocabulary, and metaphors to naturally deliver understanding
+	- Think of icons, firewalls, client-server, etc.
+
