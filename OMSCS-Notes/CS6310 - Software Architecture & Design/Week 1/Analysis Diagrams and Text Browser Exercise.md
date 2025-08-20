@@ -109,7 +109,7 @@ context LinesVisible inv:
 		- `linesVisible = from topPositionOfHandle to (topPositionOfHandle + windowSize)`
 - There is therefore a 'Ternary' association among all three components. We'll call this association Displays.
 	- This is represented by a diamond in the UML diagram (relationship with multiple participants)
-![[Pasted image 20250819203222.png]]
+![](OMSCS-Notes/Images/Pasted%20image%2020250819203222.png)
 ```ocl
 context displays inv:
 		  let topLineNumber = ScrollBar : 
@@ -120,8 +120,8 @@ context displays inv:
 	- Assume a `handleProportion` of 1 fills the tray.
 	- `handleProportion = numberOfLinesDisplayed / fileSize`
 	- HandleProportion can now be represented as a ternary relationship as well.
-	- ![[Pasted image 20250819202859.png]]
 	- Note that you need to account for any divide by zero issues.
 	- What happens if you scroll to the end of the file, and then increase the size of the ViewPort? 
 		- Add blank lines, or the line at the bottom of the file sticks to the bottom, and we see more lines scroll in from the top.
+![](OMSCS-Notes/Images/Pasted%20image%2020250819202859.png)
 
