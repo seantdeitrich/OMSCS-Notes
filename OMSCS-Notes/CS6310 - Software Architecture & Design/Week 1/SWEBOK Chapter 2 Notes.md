@@ -124,4 +124,24 @@
 - **Quality Attributes** - Various attributes contribute to the quality of a software design such as maintainability, portability, testability, usability, correctness, robustness, etc.
 - Some quality attributes are only discernible at runtime, such as performance, security, availability, functionality, and usability. This is opposite from attributes that are not discernible at runtime such as modifiability, portability, reusability, and testability.
 - Furthermore, there are quality attributes related to the architecture's intrinsic qualities like conceptual integrity, correctness, and completeness.
-- 
+- **Quality Analysis and Evaluation Techniques**
+	- **Software Design Reviews** - Includes architecture and design reviews, inspections, scenario based techniques, and requirements tracing. Documentation like manuals and examples can also be reviewed.
+	- **Static Analysis** - Analysis of the code 'at rest', without executing it. 
+		- This could include spell checks, style checks, security / vulnerability checks with CodeQL, test coverage, etc.
+	- **Simulation and Prototyping** - Building out test scenarios and running them to ensure system integrity. Different environments can assist with this. Prototyping can also allow ideas to be analyzed and tested before going into production
+
+**Software Design Notations** - Skipped because this is all covered in UML Review
+
+**Software Design Strategies and Methods**
+- **General Strategies** - Divide and Conquer, Top-Down, Bottom-Up, Iterative/Incremental
+- **Function Oriented (Structured) Design** - Centers on identifying major software functions and then elaborating and refining them in a top-down manner.
+	- Generally used after structured analysis, and produces data flow diagrams associated with process descriptions.
+- **Object Oriented Design** - Focused on decomposition through classes with attributes and methods. Objects are instances of classes.
+- **Data Structure Centered Design** - Begins from the data structures that a program manipulates rather than from the function it performs. The engineer describes the input and output data structures, then develops the programs control structures based on the data structure diagrams.
+- **Component Based Design (CBD)** - Design around components which are independent unit with well designed interfaces and dependencies that can be composed and deployed independently. Focuses on improving re-usability. 
+
+Tools should be used to support the creation of software design artifacts. Often these tools will:
+- Translate requirement models into design representations
+- Provide support for representing functional components and their interfaces
+- Implement heuristics refinement and partitioning
+- Provide guidelines for quality assessment
