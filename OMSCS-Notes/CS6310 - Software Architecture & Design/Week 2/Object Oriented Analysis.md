@@ -56,4 +56,6 @@ classDiagram
 **Counting Leaves Problem Diagram:**
 - My main issue with this diagram is that it includes Leaf as its own class representation
 - In actual implementation, leaves are just single node trees
-![](../../../Pasted%20image%2020250824153209.png)
+- Additionally, having a dedicated Counter with only one thing to count is pretty absurd. It makes sense for future expansion if we're going to count multiple data structures, but in this small case it would really just be a method in the tree so you could just call `tree.countLeaves()` 
+- The professor actually mentions this at the end of the unit
+![](../../Images/CountingLeavesExampleDiagram.png)
