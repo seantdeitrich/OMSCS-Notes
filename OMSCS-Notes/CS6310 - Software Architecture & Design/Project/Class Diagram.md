@@ -3,13 +3,13 @@ classDiagram
 	note "Group 6, CS6310, Fall2025, UML2.0"
 	Pokemon o-- Move
 	PokemonBank o-- Pokemon
-	CommandMap o-- Commands
+	CommandMap o-- Command
 	CommandMap <.. Thunderdome
+	Command <.. Thunderdome : executes
 	PokemonBank <.. Battle
 	Command <|-- Battle
-	Command -- Pokemon : setSeed()
-	Command -- Pokemon : removeSeed()
-	
+	PokemonFactory <.. Battle
+
 	class Move{
 		<<Abstract>>
 		- boolean isDefensive
