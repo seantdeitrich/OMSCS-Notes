@@ -2,10 +2,13 @@
 classDiagram
 	note "Group 6, CS6310, Fall2025, UML2.0"
 	Pokemon o-- Move
-
-	class PokemonFactory{
-		- Pokemon createPokemon(String name)
-	}
+	PokemonBank o-- Pokemon
+	CommandMap o-- Commands
+	CommandMap <.. Thunderdome
+	PokemonBank <.. Battle
+	Command <|-- Battle
+	Command -- Pokemon : setSeed()
+	Command -- Pokemon : removeSeed()
 	
 	class Move{
 		<<Abstract>>
@@ -28,17 +31,22 @@ classDiagram
 		- void defend()
 		- void processOpponentAttack(Move move)
 		- void decideMove()
-		- void rest()
+		- void rest() // Restores pokemon to full hp
 		- void initialize()
 	}
 	
-	class Application{
-		- Scanner scanner
-
+	class PokemonBank{
+		- List~Pokemon~ bank
+		- addPokemon(Pokemon pokemon)
+		- deletePokemon(Pokemon pokemon)
 	}
 	
+	class PokemonFactory{
+		- Pokemon createPokemon(String name)
+	}
+		
 	class Thunderdome{
-		- initiateBattle(Pokemon pokemon1, Pokemon pokemon2)
+		- Scanner scanner
 	}
 	
 	class Command{
@@ -47,19 +55,20 @@ classDiagram
 		- execute(String[] arguments)
 	}
 	
-	class BattleCommand{
+	class Battle{
 		- Pokemon pokemon1
 		- Pokemon pokemon2
-		- displayStats()
+		- showMatchup()
+	    - initializeBattle() // Create/Get pokemon via PokemonFactory
 	}
 	
-	class PokemonBank{
-		- HashMap~Name,Pokemon~ bank
-	}
-	
+		
 	class CommandMap{
-		- HashMap~Name,Command~ commandMap
+		- HashMap~String name,Command command~ commandMap
 	}
+	
+
+
 ```
 - Battle Command is a Command (make relationship)
 - Pokemon have a list of moves (aggregation?)
@@ -71,3 +80,11 @@ classDiagram
 	- Move those two pokemon instances into a list or some sort of storage
 		- (Not in thunderdome, storage class?)
 	- Send those two to the thunderdome
+
+
+- Thunderdome gets/uses/executes commands
+- Connects the commands to the pokemon
+
+Thunderdome accepts user input?
+Can battles exist without 2 pokemon
+ 
