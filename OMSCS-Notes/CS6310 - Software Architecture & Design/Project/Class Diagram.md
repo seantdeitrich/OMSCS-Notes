@@ -7,7 +7,7 @@ classDiagram
 	CommandMap <.. Thunderdome
 	Command <.. Thunderdome : executes
 	PokemonBank <.. Battle
-	Command <|-- Battle
+	Battle ..|> Command
 	PokemonFactory <.. Battle
 
 	class Move{
@@ -25,24 +25,26 @@ classDiagram
 		- int currentHp
 		- int numWins
 		- int numLosses
+		- boolean isBattling
 		- boolean isDefending
 		- List~Move~ moveList
 		- void attack() 
 		- void defend()
-		- void processOpponentAttack(Move move)
-		- void decideMove()
-		- void rest() // Restores pokemon to full hp
-		- void initialize()
+		- decideAction()
+		+ void processOpponentAttack(Move move)
+		+ void takeTurn()
+		+ void rest() // Restores pokemon to full hp
+		+ void initialize()
 	}
 	
 	class PokemonBank{
-		- List~Pokemon~ bank
-		- addPokemon(Pokemon pokemon)
-		- deletePokemon(Pokemon pokemon)
+		- static List~Pokemon~ bank
+		- static addPokemon(Pokemon pokemon)
+		- static deletePokemon(Pokemon pokemon)
 	}
 	
 	class PokemonFactory{
-		- Pokemon createPokemon(String name)
+		- static Pokemon createPokemon(String name)
 	}
 		
 	class Thunderdome{
@@ -64,27 +66,16 @@ classDiagram
 	
 		
 	class CommandMap{
-		- HashMap~String name,Command command~ commandMap
+		- static HashMap~String name,Command command~ commandMap
 	}
 	
 
 
 ```
-- Battle Command is a Command (make relationship)
-- Pokemon have a list of moves (aggregation?)
-- Include command map?
-
-- Before the battle starts
-	- Create the two pokemon IF they don't exist in the storage
-		- If they do exist, send the existing pokemon to the thunderdome
-	- Move those two pokemon instances into a list or some sort of storage
-		- (Not in thunderdome, storage class?)
-	- Send those two to the thunderdome
-
-
-- Thunderdome gets/uses/executes commands
-- Connects the commands to the pokemon
-
-Thunderdome accepts user input?
-Can battles exist without 2 pokemon
+- Does PokemonFactory need a relationship to Pokemon?
+	- Add comment about reflection implementation
+- Pokemon affects Pokemon relationship?
+- Automatically add pokemon to the bank after it's been created (relationship between bank and factory)
+- Where/when does seed get set?
+	- Battle class in thunderdome, setseed method for battle
  
