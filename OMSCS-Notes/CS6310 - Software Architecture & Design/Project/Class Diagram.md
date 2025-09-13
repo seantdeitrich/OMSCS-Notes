@@ -1,81 +1,87 @@
 ```mermaid
+--- 
+title: CS6310 Group 6 Fall 2025 Thunderdome Project
+---
 classDiagram
-	note "Group 6, CS6310, Fall2025, UML2.0"
-	Pokemon o-- Move
-	PokemonBank o-- Pokemon
-	CommandMap o-- Command
-	CommandMap <.. Thunderdome
-	Command <.. Thunderdome : executes
-	PokemonBank <.. Battle
-	Battle ..|> Command
-	PokemonFactory <.. Battle
+    PokemonBank <.. Thunderdome
+    PokemonFactory <.. Thunderdome
+    PokemonBank o-- Pokemon
+    Pokemon o-- Move
+    Thunderdome "1" o-- "1" BattleContext
+    Thunderdome --> "*" Battle
+    Battle -- "2" Pokemon
+    Battle --> BattleContext
 
-	class Move{
-		<<Abstract>>
-		- boolean isDefensive
-		- String name
-		- int power
-	}
-	
-	class Pokemon{
-		<<Abstract>>
-		- int seed
-		- String name
-		- int maxHp
-		- int currentHp
-		- int numWins
-		- int numLosses
-		- boolean isBattling
-		- boolean isDefending
-		- List~Move~ moveList
-		- void attack() 
-		- void defend()
-		- decideAction()
-		+ void processOpponentAttack(Move move)
-		+ void takeTurn()
-		+ void rest() // Restores pokemon to full hp
-		+ void initialize()
-	}
-	
-	class PokemonBank{
-		- static List~Pokemon~ bank
-		- static addPokemon(Pokemon pokemon)
-		- static deletePokemon(Pokemon pokemon)
-	}
-	
-	class PokemonFactory{
-		- static Pokemon createPokemon(String name)
-	}
-		
-	class Thunderdome{
-		- Scanner scanner
-	}
-	
-	class Command{
-		<<Interface>>
-		- getName()
-		- execute(String[] arguments)
-	}
-	
-	class Battle{
-		- Pokemon pokemon1
-		- Pokemon pokemon2
-		- showMatchup()
-	    - initializeBattle() // Create/Get pokemon via PokemonFactory
-	}
-	
-		
-	class CommandMap{
-		- static HashMap~String name,Command command~ commandMap
-	}
-	
+    class Move {
+        <<Abstract>>
+        - boolean isDefensive
+        - String name
+        - int power
+    }
 
+    class Pokemon {
+        <<Abstract>>
+        - int seed
+        - String name
+        - int maxHp
+        - int currentHp
+        - int numWins
+        - int numLosses
+        - boolean isBattling
+        - boolean isDefending
+        - List~Move~ moveList
+        - attack()
+        - defend()
+        - decideAction()
+        + processOpponentAttack(Move move)
+        + takeTurn()
+        + rest() // Restores pokemon to full hp
+        + initialize()
+    }
+
+    class PokemonBank {
+        - static List~Pokemon~ bank
+        - static addPokemon(Pokemon pokemon)
+        - static deletePokemon(Pokemon pokemon)
+        - static Pokemon getPokemon(String pokemonName)
+    }
+
+    class PokemonFactory {
+        - static Pokemon createPokemon(String pokemonName)
+        - static Move createMove(String moveName)
+    }
+
+    class Thunderdome {
+        - Scanner scanner
+        - BattleContext context
+        - start()
+        - processInput(input)
+        - battle(String pokemonName, String otherPokemonName)
+        - setSeed(int seed)
+        - removeSeed()
+        - help()
+        - exit()
+    }
+
+    class BattleContext {
+        - int seed
+    }
+
+    class Battle {
+        - BattleContext context
+        - Pokemon pokemon1
+        - Pokemon pokemon2
+        - initializeBattle()
+        - startBattle()
+    }
 
 ```
 - Does PokemonFactory need a relationship to Pokemon?
 	- Add comment about reflection implementation
 - Pokemon affects Pokemon relationship?
 - Automatically add pokemon to the bank after it's been created (relationship between bank and factory)
-- Where/when does seed get set?
-	- Battle class in thunderdome, setseed method for battle
- 
+
+- Thunderdome has one battlecontext
+- Thunderdome can create any amount of battles
+- Each battle has 2 pokemon
+- 
