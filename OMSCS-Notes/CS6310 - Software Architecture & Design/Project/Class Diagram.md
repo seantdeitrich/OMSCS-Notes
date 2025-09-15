@@ -30,6 +30,7 @@ classDiagram
         - boolean isBattling
         - boolean isDefending
         - List~Move~ moveList
+	    - Move queuedMove
         - attack()
         - defend()
         - decideAction()
