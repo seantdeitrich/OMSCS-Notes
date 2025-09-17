@@ -1,3 +1,4 @@
+```mermaid
 title Le Pokemon Squence
 
 actor User
@@ -82,4 +83,4 @@ deactivate battle
 space 1
 end
 thunderdome-->User:
-
+```
