@@ -4,15 +4,14 @@ title: CS6310 Group 6 Fall 2025 Thunderdome Project
 ---
 classDiagram
     PokemonBank <.. Thunderdome
-    PokemonFactory <.. Thunderdome
+    SkillBank <.. Thunderdome
     PokemonBank o-- Pokemon
-    Pokemon o-- Move
-    Thunderdome "1" o-- "1" BattleContext
+    SkillBank o-- Skill
+    Pokemon o-- Skill
     Thunderdome --> "*" Battle
     Battle -- "2" Pokemon
-    Battle --> BattleContext
 
-    class Move {
+    class Skill {
         <<Abstract>>
         - boolean isDefensive
         - String name
@@ -27,53 +26,60 @@ classDiagram
         - int currentHp
         - int numWins
         - int numLosses
-        - boolean isBattling
-        - boolean isDefending
-        - List~Move~ moveList
-	    - Move queuedMove
+        - List~Skill~ skillList
+	    - Skill queuedSkill
         - attack()
         - defend()
         - decideAction()
-        + processOpponentAttack(Move move)
+        + processOpponentSkill(Skill skill)
+	    + addSkill(Skill skill)
+		+ forgetSkill(Skill skill)
         + takeTurn()
-        + rest() // Restores pokemon to full hp
+        + rest()
         + initialize()
     }
 
     class PokemonBank {
-        - static List~Pokemon~ bank
+        - static List~Pokemon~ pokemonBank
         - static addPokemon(Pokemon pokemon)
         - static deletePokemon(Pokemon pokemon)
         - static Pokemon getPokemon(String pokemonName)
     }
-
+    
+	class SkillBank {
+        - static List~Skill~ skillBank
+        - static Skill getSkill(String skillName)
+        - static addSkill(Skill skill)
+    }
+    
     class PokemonFactory {
-        - static Pokemon createPokemon(String pokemonName)
-        - static Move createMove(String moveName)
+		- static Pokemon createPokemon(String pokemonName)
+    }
+    
+    class SkillFactory {
+		- static Skill createSkill(String skillName, int power, boolean isDefensive)
     }
 
     class Thunderdome {
+	    - int tempSeed
         - Scanner scanner
-        - BattleContext context
         - start()
         - processInput(input)
-        - battle(String pokemonName, String otherPokemonName)
+        - createPokemon()
+        - createSkill()
+        - prepareBattle(String pokemon1Name, String pokemon2Name)
+        - battle(Pokemon pokemon1, Pokemon pokemon2)
         - setSeed(int seed)
         - removeSeed()
         - help()
         - exit()
     }
 
-    class BattleContext {
-        - int seed
-    }
-
     class Battle {
-        - BattleContext context
         - Pokemon pokemon1
         - Pokemon pokemon2
-        - initializeBattle()
         - startBattle()
+        - finalizeResults()
     }
 
 ```
@@ -81,8 +87,6 @@ classDiagram
 	- Add comment about reflection implementation
 - Pokemon affects Pokemon relationship?
 - Automatically add pokemon to the bank after it's been created (relationship between bank and factory)
-
 - Thunderdome has one battlecontext
 - Thunderdome can create any amount of battles
 - Each battle has 2 pokemon
-- 
