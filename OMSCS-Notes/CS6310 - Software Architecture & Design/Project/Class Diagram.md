@@ -1,6 +1,6 @@
 ```mermaid
 ---
-title: CS6310 Group 6 Fall 2025 Thunderdome Project
+title: CS6310 Group 6 Fall 2025 Thunderdome UML 2.0
 ---
 classDiagram
 
@@ -46,9 +46,10 @@ classDiagram
         - int numLosses
         - List~Skill~ skillList
         - Skill queuedSkill
-        - Skill getRandomOffensiveSkill()
-        - Skill getRandomDefensiveSkill()
+        - List~Skill~ getOffensiveSkillList()
+        - List~Skill~ getDefensiveSkillList()
         - shouldAttack() boolean
+		- getProbabilityToAttack() float
         + processOpponentSkill(Skill skill)
         + addSkill(Skill skill)
         + forgetSkill(Skill skill)
