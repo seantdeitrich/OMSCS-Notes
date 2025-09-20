@@ -38,6 +38,7 @@ classDiagram
     class Pokemon {
         <<Abstract>>
         - int seed
+        - Random random
         - String name
         - int maxHp
         - int currentHp
