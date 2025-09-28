@@ -1,0 +1,57 @@
+# Behavior Modeling
+- **States** are abstract descriptions of system values at a given time
+- The **State Space** of a system is the set of all possible states
+	- It's size increases multiplicatively, which is called the **State Explosion Problem**
+	- Tic Tac Toe (ignoring legality of positions) has 3<sup>9</sup> possible positions
+- **Events** are single instantaneous noticeable occurrences
+	- **Asynchronous** events are randomly occuring
+	- **Synchronous** events come at periodic intervals
+- Events act as stimuli for changes of state in a system
+	- This change of state is sometimes called a **State Transition**
+	- UML can denote several types of events, including:
+		- Signals (asynchronous notifications)
+		- Method calls (synchronous operation invocation)
+		- State changes in the data (also called data conditions)
+		- Passage of time
+- **Reactive Systems** are systems that respond to events
+- There are three types of techniques to model reactive systems:
+	- **Combinatorial** - Have states, but do not have events 
+		- Only inputs determine subsequent states
+		- Decision Tables are one way of showing a combinatorial system
+			- It is a table showing all possible combinations
+			- ![](../../Images/Pasted%20image%2020250928114243.png)
+		- Decision Trees 
+			- Diamonds denote decisions
+			- Rectangles denote actions
+			- Arrows represent implications of decisions
+			- ![](../../Images/Pasted%20image%2020250928114225.png)
+	- **Sequential** - Have states and linearly ordered events
+		- These systems have history or memory of the previous state
+		- Also called **Finite State Systems**
+		- Can be modeled with **State Transition Tables**
+			- Rows correspond to states
+			- ![](../../Images/Pasted%20image%2020250928114633.png)
+		- **State Transition Diagrams** can also be used, since the tables can get crowded
+			- These often have too many arrows, states, and no concept of abstraction or nesting.
+			- ![](../../Images/Pasted%20image%2020250928114847.png)
+		- **State Charts** are a more flexible way of representing systems, and are an extension to Finite State Machines
+			- State charts allow for representations of depth and concurrency
+			- State machines can be nested inside of other state machines
+			- State machines can communicate via broadcast events
+			- ![](../../Images/Pasted%20image%2020250928120357.png)
+	- **Concurrent** - Have states and unconstrained events
+		- State Charts can be used to represent these systems, with a dashed line representing to state machines that are processing concurrently
+		- ![](../../Images/Pasted%20image%2020250928120539.png)
+		- ![](../../Images/Pasted%20image%2020250928120706.png)
+	- When two state machines are communicating, **Broadcast Events** and **Data Conditions** should be used
+		- ![](../../Images/Pasted%20image%2020250928120805.png)
+		- **Data Condition** occur in square brackets, and are typically boolean expressions
+			- All data conditions are continuously monitored
+			- Support the **In** and **Not In** keywords, which check to see the state of other concurrent machines
+		- **Special Transitions** can be used for data conditions without boolean expressions, for example after a certain amount of time
+			- ![](../../Images/Pasted%20image%2020250928121455.png)
+- **State Diagrams** are related to Class Model Diagrams
+	- Attributes are the same in both
+	- Actions in state diagrams are related to methods in class diagrams
+	- Events appear as signals
+		- ![](../../Images/Pasted%20image%2020250928121920.png)
