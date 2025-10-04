@@ -40,6 +40,7 @@ Group 40's Diagram **(D40)**:
 ![](../../Images/Pasted%20image%2020251004104557.png)
 
 Group 57's Diagram **(D57)**:
+
 ![](../../Images/Pasted%20image%2020251004104535.png)
 
 Group 68's Diagram **(D68)**:
