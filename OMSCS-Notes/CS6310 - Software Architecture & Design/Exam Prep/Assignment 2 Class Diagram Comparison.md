@@ -34,7 +34,7 @@ Due to the nature of defensive skills and the turn order listed in the requireme
 #### Stats
 D40 and D57 separate Pokémon Stats into the Stats class, rather than including them as attributes in the Pokémon class like D68. One strength of separating the stats into their own class is that it allows Pokémon to focus on performing high level actions like attacking and defending without having to worry about specific calculations (i.e. it simplifies the Pokémon class). It does however add a small amount of complexity to how the stats will be applied to skills, as they now have to be accessed through the stats object. 
 #### Relationships
-<p style="color: red">TODO</p>
+
 ## Diagrams
 Group 40's Diagram **(D40)**:
 ![](../../Images/Pasted%20image%2020251004104557.png)
