@@ -43,7 +43,7 @@ Group 57's Diagram **(D57)**:
 ![](../../Images/Pasted%20image%2020251004104535.png)
 
 Group 68's Diagram **(D68)**:
-![](../../../Pasted%20image%2020251004104645.png)
+![](../../Images/Pasted%20image%2020251004104645.png)
 ## Rankings and Conclusion
 D57 meets the requirements outlined in Assignment 1 and successfully addresses several implied requirements, such as persistence and skill buffering. The Pokédex class provides an elegant solution for the dynamic creation and persistence of both Pokémon and Skills, which was not addressed by D40 or D68, making D57 the strongest overall design. 
 
