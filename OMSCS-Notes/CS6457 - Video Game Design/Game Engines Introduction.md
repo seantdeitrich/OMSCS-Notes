@@ -1,0 +1,151 @@
+## Important Concepts to Review
+- Homogenous Linear Transformations in 3D
+	- Affine Transformations
+	- Transformation order
+- Projection models
+- Quaternions - Another way of representing rotations
+- Matrix stacks
+- Scene graphs
+- Phong reflection model
+
+## Early Game Engines
+- **Computational Kernels** (the event loop) were used to run games at a low level on limited resources
+	- This kernel was a frame-based closed loop, where the player is a part of the system
+	- ![](../Images/Pasted%20image%2020260113080035.png)
+	- The computational kernel would operate on internal data models and input
+## Human Perception
+- All gameplay should consider human perception:
+	- Visual stimulus reaction: 0.2s
+	- Auditory Stimulus Reaction: 0.16
+- Ultimately we are trying to fool the senses with illusions, primarily visual but also some auditory. Tactile sensation can also be used with haptic feedback.
+- Some goals we are trying to accomplish:
+	- **Object Representation**
+	- **Relationships**
+	- **Cause and Effect**
+	- **Real World Representation**
+	- **Immersive Simulation**
+	- **Animation**
+		- Consecutive similar images appear to be persistent shapes that move / change if the image change rate is fast enough
+		- 10fps is enough for a sense of spatial presence, but games aim for 30fps and above.
+## Simulation Concepts
+- The goal is to create more realistic simulations. This includes (but not limited to):
+	- Light transport
+	- Physics simulation
+	- 3D Audio simulation
+	- etc.
+	- These isolated simulation models are stitched together to create a simulation
+- Each frame is frozen in time - 
+	- Each frame updates shares a common reference time (from the start of frame processing)
+	- Visuals are rebuilt from scratch
+	- Each frame only simulates what is needed to create the illusion
+- Frame time is fixed / frozen
+	- This allows for consistent output as all game objects animate by the same amount of time
+	- Avoids race conditions that dictate object interactions
+- Only simulate what is needed
+	- Surface based rendering (Removing surfaces that aren't seen)
+	- Frustum and occlusion culling (removing more of what isn't seen)
+	- Dynamic LoD (Changing level of detail based on distance)
+- Side Effects of Detail Management
+	- Pop-in of objects and characters
+	- Un-activated characters
+	- Characters teleport when you aren't looking or are out of range
+	- Glitching out of levels
+	- Disappearing objects
+	- Seeing inside solid objects
+- Frame Rate
+	- Humans notice up to around 60fps for synthesized animation
+	- Interactive animation requires higher FPS than synthesized animation because the user will experience latency between their input and the animation
+- Canonical Render Pipeline
+	- Frame generation is split into workloads that can be run in parallel, which GPUs are extremely effective at processing.
+	- The primary issue that needs to be handled in 3D space is 'which surfaces are in front of other surfaces'
+	- Each pixel has an RGB value, as well as a distance value to the nearest object called the **Z Buffer**
+		- If the new Z Buffer value is closer than the old one, then write the new RGB and Z Buffer
+
+## Simulating Without Frames
+- **Adaptive Frameless Rendering**
+	- Based on Ray Tracing
+	- ![](../Images/Pasted%20image%2020260113091337.png)
+	- The rays will sync up when not in motion, but while in motion there is a mix of old and new pixel updates
+	- If every pixel was using rays constantly, it would likely be too expensive for higher framerates
+- Alternatives to surface rendering
+	- This approach would be closer to reality
+	- Rather than surfaces as polygons, they could be represented with particles
+		- Expensive in terms of data and storage
+		- Has been accomplished in 2D 
+		- Stacks of particles end up not having strong structures (it ends up acting like everything is made of jelly)
+		- ![](../Images/Pasted%20image%2020260113091754.png)
+
+## Synchronizing Real Time with Simulation
+- Frames need to be generated and responsive in real time, as opposed to movies which can render frames ahead of time
+- The user has expectations of how things should move in the real world based on time passing, which should properly be represented in the simulation
+- Frame Timing (Time to Work)
+	- Given 60FPS
+	- 0.01667 seconds per frame / 16.67ms per frame / 16666.67 microseconds per frame
+	- Can you get everything done before the next frame?
+		- We are not able to use an arbitrary amount of time per frame
+- **Screen Tearing** occurs when the updates of the game loop and the display are not aligned
+- **Stuttering** occurs when the game loop is synced with the display but misses a frame boundary occasionally
+- **Vertical Sync** means that the game will abide by the refresh rate of the monitor
+	- Double and Triple buffering means that if a frame is skipped, it will save one or two copies of that frame as needed until the next frame is available
+	- Adaptive Vertical Sync allows for dynamic times between frames
+- Reducing latency is particularly important for more responsive games and virtual reality
+	- With turn based games, it's less important
+	- Latency can be reduced with:
+		- Higher Frame Rate
+		- Adaptive Vertical Sync
+		- Pipelining and Cache Coalescing
+		- Input Prediction (Kalman Filter) with a second input update later in the pipeline
+			- Uses Relaxed frustum culling
+
+## Frame Timing
+- Frame times can affect in game behavior if not considered in the scripts
+- There are three 'modes' in the professors example:
+	- Frame Dependent (Dumb Mode)
+		- $$ newPos = oldPos + constTranslation $$
+		- The behavior happens once per frame, which is why the blue pill slows down when the framerate drops
+		- Oblivious to the advance of real world time
+		- Only works if there is a near constant amount of time to update each frame
+		- Difficult to guarantee for modern 3D games
+		- Causes animations and effects to be inconsistent
+		- Varying gameplay experience depending on hardware
+		- Low overhead
+	- Fixed Frame Time
+		- $$ newPos = oldPos + constTranslation $$
+		- Applies a rotation once per 60th of a second
+		- This uses FixedUpdate instead of Update, which is a method that runs in parallel to the normal update (more on this later)
+		- If it needs to be called multiple times to meet an update target it will, otherwise it will wait until enough time has advanced
+		- Hybrid approach to time-based updates
+		- GameObjects update as if the framerate is constant
+		- External manager determines fixed update schedule
+		- Compensates for real world time
+		- Game Objects can be oblivious to time sync issues
+		- Runaway computational load
+			- If the framerate drops, it leads to more fixed updates which leads to even lower framerates
+		- Can only be applied to a subset of all update objects/tasks
+		- User can only respond to state changes reflected in full frame updates (not fixed updates)
+		- Sometimes it is difficult to coordinate fixed update with normal update logic
+		- Can cause jitter (although Unity can interpolate / extrapolate visual objects to resolve jitter)
+		- **Note that FixedUpdate does not process in parallel perfectly following a real world clock**
+			- The FixedUpdateMgr keeps track of a target elapsed time and decides how many times to run FixedUpdate cycles per frame (how to catch up)
+			- Calculate how much deltaTime and remaining time there was from the previous frame: $$totalDeltaTime = remainingDeltaTimePreviousFrame + deltaTime$$
+			- Calculate the number of updates that should happen: $$numFixedUpdatesThisFrame = Floor(totalDeltaTime / fixedUpdatePeriod)$$
+			- Update the remaining delta time: $$remainingDeltaTimePreviousFrame = totalDeltaTime - fixedUpdatePeriod * numFixedUpdatesThisFrame$$
+		- **Note: If the FixedUpdate framerate is higher than the normal framerate**
+			- The game is running poorly, so FixedUpdate runs multiple times to catch up for the next frame
+		- **Note: If the FixedUpdate framerate is lower than the normal framerate**
+			- Some native frames will have no fixed updates (otherwise extra calculations would happen)
+		- **FixedUpdate is most often used for physics game logic**
+			- It can simplify time based computations
+			- The simulation can be unstable if the normal update rate is too low
+			- Can provide a lower update rate than the actual framerate which helps performance
+			- Avoids floating point rounding errors from extremely small deltaTimes
+	- Variable Frame Time (Time Dependent Mode)
+		- With a fixed update cycle: $$newPos = oldPos + velocity*deltaTime$$
+		- Uses delta time in the normal update function (the time to the previous frame) to normalize the behavior
+		- As performance drops, deltaTime increases so that you rotate more when the game lags
+		- This allows more consistent rotation no matter the framerate
+		- Game Objects are aware that real-world time may advance differently relative to simulation frames
+		- Gameplay experience is normalized across scene complexity and different hardware
+		- Extra computation to compute time-dependent effects
+		- Tiny frame times can cause floating point rounding errors
+	- **Note: This implies that you should not use deltaTime in the FixedUpdate method**
