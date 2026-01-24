@@ -3,5 +3,67 @@
 - Shadow play developed in many cultures as well as an early form of animation.
 - Squash and stretch were used to communicate a sense of motion and liveliness.
 - Exaggeration was also used to bring life to animations.
-
-## 2D Animation
+## 2D Interactive Animation
+- The first video games used Vector Graphics on CRT displays with arbitrary aim (oscilloscope, not rasterized lines).
+- Sprites started being used in 1974 to support animation.
+- Some of the original video games on more primitive computers used text and special characters to draw images on the screen, and then the user would interact via the keyboard.
+- Sprite sheets or animated sprites became popular for home gaming systems.
+	- Dedicated hardware was sometimes built to help render the sprites
+	- Sprites were limited to pixel art, with no support for in-between pixels.
+	- Pixels would use a lookup table to get their colors instead of storing a byte per pixel (due to limited memory). This actually allowed for pixel mapping, where you could have an animated color palette to change colors in real time. 
+		- Pixels reference a location in the palette, but the palette is being manipulated to create an animation on the final game object.
+- Sprite rotations and scaling were impossible historically until more modern hardware came along.
+## 3D Interactive Animation 
+- The first 3D games used wireframe graphics.
+- 3D with 2D billboards (spritesheets) were used for Doom and Wolfenstein, where different textures were used based on the enemy facing angle and camera angle.
+- The first truly 3D game was quake, where all animations were locked at 10fps. Each frame an array of ordered vertexes were applied to model triangle mesh. 
+	- Every vertex was animated and stored in memory.
+	- As more vertices were added, more memory was used.
+	- Each model consisted of a vertex table, with indexed triangles and texture coordinate references: ![](../Images/Pasted%20image%2020260124110442.png)
+	- ![](../Images/Pasted%20image%2020260124110449.png)
+	- This allowed for textures to fill triangles as needed.
+- Computer Assisted Animation was incentivized to automate the inbetweening of keyframes.
+	- This was less tedious than hand animating every frame.
+	- Linear interpolation was most commonly used for smooth tweening.
+	- Procedural animation was also used, which means using algorithms to animate an object. Clocks and machinery are good examples of this.
+- Physics Based Animation is also used, where objects are assigned physical properties and the simulation of physics will automatically animate objects. This can be useful, but also difficult to control.
+- Motion Capture is used in modern games to capture the style, nuances, and realism of people and creatures. 
+- Skeletal Animation was developed so that instead of storing and animating each vertex, we only need keyframes for the skeleton.
+	- The skeleton would deform a mesh as needed.
+	- Arbitrary framerates can be achieved with tweening and interpolation.
+	- For each vertex in the mesh, it has a weighted list of bones that it's attached to.
+	- Pros: Memory savings, animation blending, portability and reuse, and animation authoring is simplified.
+	- Cons: implementation difficulty, computational overhead, and problems with mesh deformations.
+- **Root Motion** refers to the X, Y, and Z translation and pitch, yaw, and roll rotation of the root bone as a component of a skeletal animation.
+	- This motion can be applied accumulatively  to the game object, resulting in locomotion.
+	- Since bones are attached to the root, as the root moves they 'locomote' with the root.
+	- In Unity, the **Root Transform** is a projection on the Y plane of the Body Transform and is computed at runtime. At every frame, a change in the Root Transform is computer. This change in the transform is then applied to the game object to make it move.
+	- ![](../Images/Pasted%20image%2020260124113903.png)
+	- Having a root transform allows for avoiding capsule separation, and aligning movement with foot-fall (notice the offset capsule in the first part of the image).
+	- In some cases you may want to limit root transformations to only certain dimensions, so that characters or capsules don't simply fall over (Y axis is typically locked).
+- **Animation Blending** allows for different extremes of similar animations (think various walking/running speeds). Then, a whole range of movement possibilities can be generated from just a few animations through weighted averages.
+	- Root motion can be blended as well.
+	- Dissimilar animations can lead to strange behaviors.
+	- Sometimes you may want to only blend certain parts of animations, which is where **Avatar Masks** and **Animation Layers** come in.
+	- Layers allow for dissimilar animation blending.
+	- Masks allow for more control of blending / layering of animations.
+	- For example, a soldier running and shooting could have separate upper body and lower body animation layers / masks. This works well with inverse kinematics.
+- **Match Targets** is the Unity utility for interpolating with animation timelines and transforms.
+	- For example, if a character is grabbing a ledge from a number of different orientations / animations / positions, we need to adjust their limbs over the course of time to land in a particular pose.
+	- `Animator.MatchTarget()`
+	- Sliding is often an unwanted side effect of using this. It should only be used for short distances.
+- **Forward Kinematics**
+	- Common in games with parent and children game objects. 
+- **Inverse Kinematics**
+	- Instead of the parent game object dictating the transform, the child affects the parent as needed.
+	- The child has a target that it wants to move towards, but this adds complexity.
+	- Built into Unity, where it lets you move a joint to a target position.
+	- Useful for adjusting feet of a character when they're walking on varied terrain, or for programmatic, reactive animations.
+	- Unity allows you to set the 'goal' of the motion. ![](../Images/Pasted%20image%2020260124120157.png)
+- **Retargeting Skeletal Animation**
+	- Ideally animations can be mapped from one skeleton onto another.
+	- Unity uses **Muscle Space**, which a normalized skeletal movements relative to joint limits.
+	- Interpenetration and joint limits will need to be considered here, but it's a powerful tool to move animations from one skeleton to another.
+- **Euler Angles**
+	- Euler angles are a rotation about a single axis. Any orientation can be described composing three rotations around each coordinate axis. 
+	- **Gimbal Locks** happen when two or more axes align resulting in a loss of rotation degrees of freedom. This is why Unity uses **quaternions** for rotational data.
