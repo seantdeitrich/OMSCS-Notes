@@ -1,3 +1,4 @@
+*Note: Most of the useful content from the animation section comes from the **Unity Interactive Animation** video at the end of the module, which describes how to actually implement animations in Unity. I recommend watching that video and trying to implement an animator yourself from scratch.*
 ## Early Non-Interactive Animation
 - Cave art showed early signs of animation, where fires would randomly illuminate different parts of an image to give the illusion of motion.
 - Shadow play developed in many cultures as well as an early form of animation.
@@ -67,3 +68,36 @@
 - **Euler Angles**
 	- Euler angles are a rotation about a single axis. Any orientation can be described composing three rotations around each coordinate axis. 
 	- **Gimbal Locks** happen when two or more axes align resulting in a loss of rotation degrees of freedom. This is why Unity uses **quaternions** for rotational data.
+
+## Animation in Unity
+- Use the `Animator` game object to create an animation tree, which can define blends, parameters, and transitions.
+
+## Assignment Notes (M1)
+- [x] Update the HUD to show your name.
+	- The name text can be found in the FrameRateCounter object at the top of the hierarchy. Expand it and click the Name game object.
+- [x] Animate a character without root motion that turns programmatically.
+	- [x] Disable turn animation by not passing the turn input to the animator in `BasicControlScript.cs` (comment out line 101).
+- [x] Animate a character with root motion that has:
+	- [x] Variable walking and running speed in all directions.
+		- [x] Open the Animator and drill into BlendTree - Forward,  then add the Run, Run Left, and Run Right animations.
+		- [x] Adjust the blend positions to make sense.
+		- ![](../Images/Pasted%20image%2020260126190917.png)
+	- [x] Publicly modifiable scalars for the root motion parameters.
+		- ```csharp 
+	[Header("Root Motion Control Settings")]
+    public float animationSpeed = 1.0f;
+    public float rootMovementSpeed = 1.0f;
+    public float rootTurnSpeed = 1.0f;
+    // This goes in FixedUpdate() to adjust the animator speed to the new variable
+    anim.speed = animationSpeed;
+    // This goes in OnAnimatorMove() to scale the root motion
+    newRootRotation = Quaternion.LerpUnclamped(this.transform.rotation, newRootRotation, rootTurnSpeed);
+    newRootPosition = Vector3.LerpUnclamped(this.transform.position, newRootPosition, rootMovementSpeed);
+		  ```
+	- [ ] The ability to move to a target location and point to the target after a button press.
+- [x]  Animate a Minion with root motion that hops and twists while moving.
+	- Double click the animation, then select the 'Curves' tab at the bottom to see the curve view.
+	- [x] Apply the animations to the model instead of the root position. The root position should move forward, while the model animations should rotate the model and move it up and down.
+	- [x] Give them minion squeaky footsteps by adding an Animation Event into each animation where footsteps would land. Type `ExecuteFootstep` into the Function field in the inspector, without any parens.
+- [x] Add your first initial and last name to the Auditor>Auditor Game Object.
+
