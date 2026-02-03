@@ -3,7 +3,6 @@
 - There are two types: High Precision and Real Time.
 - Havok, Newton, ODE, NVidia PhysX are all examples of real time physics engines.
 - Unity uses PhysX.
-
 ## Components
 - Physics engines usually include the following components:
 	- Bodies (Rigid Bodies)
@@ -25,7 +24,6 @@
 		- With hierarchical collision, you can use have multiple boxes and test for collisions in a tree like fashion (this helps average performance at the cost of a worse worst case scenario performance)
 	- Layers and Group Membership can be used to control collisions
 	- Geometries can have a 'skin' layer to deal with jitter and relax collision constraints
-
 ## Discrete Collision Detection
 - Given that an object is moving a set amount of distance per frame, it usually will not have a perfect collision with another object, and therefore will move partially into it.
 	- However, the moving object might simply pass through a skinny wall if it is moving quickly. This is called **Tunneling**.
@@ -46,7 +44,6 @@
 	- PhysX actually sets default maximum velocities and angular velocities
 	- `rigidBody.maxAngularVelocity` is the property to control in this case if needed
 - **Dynamic Substeps** can also be used to alleviate tunneling, which allows for faster moving objects to have a higher number of checks (or essentially a higher framerate) relative to the speed. Substeps can also be increased when an object is a 'candidate' for collision, or in other words within a certain area and expected to collide soon.
-
 ## Collision Dynamics
 - Collisions should have results that are largely consistent with the real world. Bigger objects should push smaller ones out of the way for example.
 - **Penalty Force Method** was one of the early approaches to this:
@@ -100,3 +97,44 @@
 - Keep the graphics object and physics object in synch
 - Deactivate objects (manually or automatically)
 - Use layers effectively
+## Unity Physics
+- Any object to be affected by physics needs a **RigidBody** and a **Collider**
+- For the falling boxes that Professor Wilson implemented, he made it so that if any contact in the collision has a larger impulse than a certain constant, it will play a sound:
+- ```csharp
+  void onCollisionEnter(Collision c){
+	  foreach(ContactPoint contact in c.contacts){
+		  if(c.impulse.magnitude > 0.5f){
+		  //EventManager.TriggerEvent<AudioEventManager.BoingAudioEvent, Vector3>(contact.point) <-- this is a simpler approach
+			  EventManager.TriggerEvent<AudioEventManager.BoxAudioEvent, Vector3, float>(contact.point, c.impulse.magnitude)
+			  break; //Hard enough hit, so we can break out of the loop to not get too much noise
+		  }
+	  }
+  }
+  ```
+- The above code is handled in the AudioEventManager script that handles each audio event differently.
+- Pitch randomization is used to give the sounds diversity and realism.
+- **Layers** can be used to control collision between objects
+	- Edit -> Project Settings -> Physics
+	- The Layer Collision Matrix helps define what layers interact / collide with other layers
+- **Joints**
+	- When adding a joint, make sure the connected body is set to the correct RigidBody
+	- Fixed joints are pinned in place
+	- Configurable joints can have connected bodies, and lock motion in different directions
+- The physics system will optimize things better if you mark static objects
+- **Friction** attributes (Physics Material) are on the collider shape , not the RigidBody
+	- Friction Combine and Bounce Combine are both by default set to average
+	- These values average out the friction and bounce values respectively for the two colliding objects
+	- Friction value can be set to minimum to make something slippery (taking the minimum friction value of the two colliders) (and adjusting the friction)
+	- Bounce value can be set to maximum to make something bouncy (and adjusting the bounciness)
+- **RagDolls** can be added with GameObject -> 3D Object -> Ragdoll
+	- RigidBodies must be attached to the skeleton via this menu
+	- Turn the animator off to prevent it from entering an animation, and allow the ragdoll physics to take place
+- **Applying Forces/Impulses**
+	- Forces are applied continually `ForceMode.Force`
+	- Impulses are applied in one frame `ForceMode.Impulse`
+	- `body.AddForce(Vector3.up * force, ForceMode.Impulse/Force)`
+- The jumping bean for the assignment experiences a vertical impulse and a randomized torque
+- RigidBody components have the `Sleep()` and `WakeUp()` method calls to start or stop their physics simulation. Objects can sleep until a collision happens, at which point they can WakeUp and then sleep again when they stop colliding (or don't have a velocity).
+	- You can also set something as Kinematic, and then control the physics collisions dynamically with `detectCollisions = true/false`
+	- If a ragdoll character falls, you can cycle through different getting up animations and calculate the 'pose distances' to find which animation is the most appropriate to use given the way the ragdoll fell.
+	- Some time must be taken to interpolate to the start of that animations starting pose
