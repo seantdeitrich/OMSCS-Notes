@@ -1,0 +1,188 @@
+## Movement and Steering
+- An enemy moving directly towards a player doesn't feel natural or fun
+- The enemy can instead turn towards a target vector, and if can control and animate turning while adjusting speed, it will feel more natural
+	- Slow forward velocity if the angle is large, and accelerate to max velocity as a target angle becomes small
+	- Fleeing is the same process in reverse essentially
+- Decouple steering from translation, and then you can get progressively more advanced with acceleration curves, separate deceleration rates, speed dependent turn rates, etc.
+- Prediction can be used to steer towards a future target, rather than steering directly at the player
+	- Be mindful of extreme predictions which can result in odd behavior
+	- Clamp the max time prediction
+	- Clip extrapolated future positions so that they fit on a navmesh or map
+	- Be mindful of small or zero vectors (dividing by zero or small numbers)
+- Typically there will be a radius around the target where behavior changes, so you don't end up orbiting around the target as they continue to move
+- **Obstacle Avoidance** uses a lookahead window based on speed (with a raycast), and an avoidance force
+	- As they get closer to an object, the avoidance force can push them tangentially to the obstacle
+	- The magnitude of the avoidance force is typically determined by how far the ray penetrates into the obstacle (or in other words, how close they are to the obstacle)
+	- Often times multiple rays are used
+- **Randomness** can be used to increase the complexity of movement as well and keep the player guessing
+	- This is often implemented with a 'wander force'
+	- ![](../Images/Pasted%20image%2020260223093059.png)
+	- A circle is placed around the target vector, and a small wander force points towards a random point on that circle
+- Multiple behaviors can be engaged simultaneously by using a weighted sum of the forces
+	- For example, obstacle avoidance can be combined with pursuit
+	- However sometimes these forces can cancel each other out, or lead to orbiting
+
+## Root Motion Steering
+- Root motion can make it difficult to predict future positions
+- Animation parameters, blends, and root motion blending can be used to match the desired steering behaviors
+- This can be done with a mapping or lookup table based on the input parameters
+	- The table uses the parameters to match to the closest root motion to steering the target
+	- You can then interpolate from the current motion to the table selection
+
+## Path Planning
+- Graph theory can be used to plan paths
+- **Discretized Space** can be used to create a 'graph' like structure for our 3D game worlds
+- Path planning algorithms must search the state space to move the NPC to a goal state
+	- Blind search would mean no domain knowledge, and only the goal state is known
+	- **Heuristic search** means that there is domain knowledge represented by heuristic rules
+	- The heuristics can drive low level decisions, and video games provide this knowledge that can be leveraged to improve search performance
+- For tile based games, there is a 1 to 1 coordination of the path planning graph and simulated space
+- For 3D space this is more difficult
+	- Grid Lattice is one approach: ![](../Images/Pasted%20image%2020260223172922.png)
+	- **Validity** can also be used, where you check to see if between two points in a discretized space, can the agent travel in a straight line between the two points
+- Quantizing or locking to the grid can produce unwanted behaviors, these can be alleviated with 'string pulling'
+	- Imagine a string tied to the target and the agent, and it can wrap around objects
+	- You can also steer towards the last object before losing line of sight
+- The **A* (A-Start)*** algorithm is the most frequently used in game development
+	- Weights the graph based on cost so far and the heuristic to the goal
+	- Only fails when there is no solution
+	- Avoids searching the whole space
+	- Combination of Greedy DFS and Dijkstra's Algorithm
+	- An *admissible* heuristic is one that guarantees that the shortest path can be found with the search because it never overestimates the cost of reaching the goal
+	- *Inadmissible* heuristics may potentially overestimate the cost of reaching the goal 
+	- In games, it's perfectly acceptable to use either admissible or inadmissible heuristics
+
+## Path Networks and NavMeshes
+- Quad Trees often allow for more efficient use of space than a grid
+	- They are essentially still grids but have variable sized cells: ![](../Images/Pasted%20image%2020260223184809.png)
+	- More complicated data structures and parsing
+	- Can result in undesirable quad tree subdivisions if obstacle details don't line up with quad tree cell boundaries
+- **Path Networks**
+	- Do not require the agent to be at one of the path nodes at all times
+	- The agent can be at any point in the terrain allowed by the physics simulation
+	- When the agent needs to move to another location and is blocked, the agent can move to the nearest path node accessible by straight-line movement
+		- Then they find a path through the edges of the path network to another path node near to the desired destination
+	- Think of it like a spider web of paths, or hopping on the highway
+	- Only connects points that are **visible to each other**, facilitated by raycast
+	- Usually hand tailored
+	- Can lead to some back tracking to the nearest node
+	- You can use points of visibility to generate a path network
+		- Inflection points must be offset to leave some distance for the agent to go around corners
+		- This approach tends to find natural and efficient paths
+		- Often requires a lot of manual tweaks and graph bloat
+	- Pros:
+		- Discretization of space can be small
+		- Doesn't require agent to be at one of the path nodes at all times, unlike a grid
+		- Continuous non-grid movement
+		- Switch between local and remote navigation
+		- Plays nice with steering behaviors
+		- Good for FPS and RPGs
+		- Can indicate special spots for sniping, crouching, etc.
+	- Cons
+		- Valid NPC positions might not be able to see a node in the network
+		- Jagged path shape
+		- Dynamic and rolling terrain issues
+		- NPCs can have trouble when not on the path network
+- **NavMeshes:**
+	- Uses convex shapes to provide a navigable area
+		- This helps with point containment algorithms
+	- Adjacent edges define graph connectivity
+	- This is represented by the blue area in Unity when you bake a NavMesh
+	- Triangulation can be used to generate the NavMesh, then to optimize those triangles can be combined into squares, pentagons, etc. when needed.
+	- Waypoints can be placed at edges and corners, as well as midpoints of each shape in the NavMesh, but this can cause issues of agents running into obstacle corners
+	- Instead we can use **Expanded Geometry** so the discretized space takes into account the NPC size
+		- This is easier to calculate rather than continuously calculating the distance to the nearest obstacle.
+		- ![](../Images/Pasted%20image%2020260226190245.png)
+		- This approach leads to a problem with corners though:
+		- ![](../Images/Pasted%20image%2020260226190354.png)
+		- Squaring off/selective mitering is a compromise to avoid curves
+		- Rounding off the distance or using a tesselate curve helps with this
+	- NavMeshes allow for dynamic navigation around obstacles because they have a known safe area:
+		- ![](../Images/Pasted%20image%2020260226190922.png)
+	- Different NavMeshes can be baked for different agents (types of enemies)
+## Decision Making
+- Pathfinding needs to be supported with a decision making process to create interesting behavior in games
+- Types of decision making:
+	- **Reactive** 
+		- Responds directly to environmental state
+		- Pre-planned conditional actions
+		- Most real time game AIs are reactive
+	- **Deliberative**
+		- Models environment (discretized space)
+		- Inference made to determine plan that can achieve the goal state
+		- This is what pathfinding uses
+	- **Reflective**
+		- Learn from experience
+- **Pre Planned Behavior Types**
+	- **Production Rules**
+		- Defines actions to be executed in response to conditions
+		- Simple architecture, but difficult to organize and understand behavior just by looking at the rules
+		- Rules can potentially conflict and lead to ambiguous situations
+		- This is implemented as a series of if statements essentially
+			- The highest priority would be first in the code, and more general statements would come afterwards
+			- Can be stateless
+			- Advanced production rule systems use an arbiter that selects from matching rules
+	- **Decision Trees**
+		- Uses nested if statements, but this quickly becomes difficult to manage
+		- Good for very simple decision making
+	- **Finite State Machine (FSM)**
+		- Self explanatory for any CS student
+		- The FSM should have states and transitions
+			- The state is the action to take
+			- Transitions have conditions that define when to change state
+		- Doesn't handle interruptions to states particularly well
+		- If there is a potential to interrupt, we can use 'Any State' or a Global (wildcard)
+			- ![](../Images/Pasted%20image%2020260227110824.png)
+		- State machine problems:
+			- Usually they are predictable, but this is sometimes a good thing for gameplay
+			- If it becomes a problem, you can use a fuzzy or probabilistic state machine to try and alleviate the issues
+			- Simplistic in what they can do, but FSM stacks or hierarchies can increase complexity
+			- AI can get stuck in certain states, and the number of states can grow extremely quickly
+		- Advantages:
+			- Quick and easy to code, easy to debug, intuitive, flexible, and low computational overhead
+			- Easy for designers without coding knowledge
+		- The example shown in the video has a public enum that holds the different states for an AI, and uses a switch case statement to define behaviors and transitions for each state in the Update method
+		- A more object oriented approach creates a class for a state with Enter, Execute, and Exit methods
+		- **Parameterized Transitions**
+			- Often times states need information to act in a certain way
+			- You may forget what information is needed for any given state, like needing a target for a combat state
+			- Parameterizing ChangeState methods can make state requirements more explicit
+			- ![](../Images/Pasted%20image%2020260227112105.png)
+		- **Changing State Safely**:
+			- State changes can happen anywhere, which can lead to situations where the current state changes but code from the previous state is still executing
+			- Enforcing a mechanism for deferred state changes may be desirable, where you complete the actions of the current state before transitioning to the next state
+			- An UpdateState method can be used that returns a value that specifies whether to stay in the current state, or change to a new one with the correct parameters
+		- **Hierarchical FSMs**
+			- Equivalent to regular FSMs but have recursive, multi level evaluation
+			- This approach makes it easier to think about encapsulation, and could be good for a boss scenario with multiple phase changes
+			- Addresses Entry, Update, Exit, and Any at multiple levels
+		- **Stack FSMs**
+			- Make sure there is always a base to the stack like a root or idle state
+			- Pushing and popping can introduce challenges in how to transition game and character state from one state to the next
+			- States can pop itself and/or push a new state onto the stack
+			- Has memory leak potential looping between states
+		- **FSM Animation / Transition Problem**
+			- Sometimes animation state machines won't line up with the behavioral state machines
+	- **Behavior Trees**
+		- Borrows some aspects from state machines, but is more declarative
+		- Includes **Composite**, **Decorator**, and **Leaf** behaviors where the states are **Success**, **Failure**, and **Running**
+			- Composite nodes include one or more children
+				- Sequences are like AND operations
+				- Selectors are like OR operations
+				- Returns success or fail based on children returns
+			- Decorator nodes only have one child
+				- They modify the return of its child node
+				- Inverters and succeeders are a common pattern
+				- Repeaters and repeat until fail
+				- It's essentially a loop or logic node that controls its child
+			- Leaf nodes include game logic
+				- Returns success, failure, or processing
+				- Init() is called in the first visit
+				- Process() is called until complete
+		- Behavior trees perform one action per tick
+			- At the start of a tick, walk the tree to find our current node
+		- Transitions are externalized from states
+		- Allows for easy reuse of behaviors since the transitions are decoupled
+	- AI agents could potentially be time dependent, where they behave differently based on framerate
+		- This can be fixed by using a fixed framerate, or using a time knowledgeable random number generation
+		- 

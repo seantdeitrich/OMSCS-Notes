@@ -1,0 +1,26 @@
+- You can assign member variables that reference other objects
+- In Unity, any public parameters can be wired in the inspector
+	- This causes confusing interdependencies as the game grows, and is painful to rewire
+- Unity recommends using the singleton design pattern
+	- Dependency Injection can also be used
+	- Configure dependencies externally with a constructor\
+	- Uses a dependency resolver that figures out what to instantiate based on when it's needed
+		- Helps resolve ambiguity and resolve circular dependencies
+		- Helps reduce 'spaghetti' dependencies
+		- Provides centralized declarative configuration
+	- The factory pattern works well for Dependency Injection and dynamically created objects
+	- Memory allocation for every new object could be expensive, so using a memory pool or object recycling can help with performance
+	- Observer Pattern can be used where a subject maintains an observer list
+		- The subject automatically notifies observers
+		- Must watch out for memory leaks
+		- Unity uses Reflection based implementation
+- Messaging / Event Driven Architecture
+	- Often a specialized case of Observer Pattern
+	- An emitter communicates to a consumer via an event channel and event type
+	- The channel can defer or filter events
+	- Event payloads should be immutable
+	- Helps with serializable events for networking
+	- Event Type: `public class BoxAudioEvent: UnityEvent<Vector3>{}`
+	- Listener: Subscribes to the event and responds to it, and defines when to stop listening
+		- Must stop listening if the listener is destroyed
+	- EventManager.TriggerEvent can be used to trigger any event

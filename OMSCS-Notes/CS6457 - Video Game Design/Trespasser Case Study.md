@@ -1,0 +1,16 @@
+- Trespasser had an idealistic approach to interface, with no heads up display.
+	- The design team was unwilling to abandon this approach when it didn't work
+- The controls were 'context insensitive'
+	- No crosshairs for guns wit
+	- Unintuitive controls with too many control options
+- For optimization, you can swap out models for textures or 2d billboards when they are far away
+- The AI was broken, but used a state machine
+	- Dinosaurs would have mood swings, rapidly changing between personality states
+- Penalty force method was used to push objects away, hence the sliding issues
+- Inverse Kinematics were used to animate the dinosaurs
+- Sound System
+	- When objects collided there was a callback function that searched a database based on the materials that collided
+- The graphics used a software oriented renderer
+	- Bump mapping and image caching algorithms did not translate well to 3D hardware
+- Utilized virtual texturing
+	- Allowed artists to develop art independent of technical issues

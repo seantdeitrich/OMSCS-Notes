@@ -29,12 +29,12 @@
 	- However, the moving object might simply pass through a skinny wall if it is moving quickly. This is called **Tunneling**.
 - **Tunneling** can be alleviated with continuous collision detection which can be implemented with:
 	- A single raycast in the direction of movement, however this can fail if the ray doesn't hit the wall (if it's slight above or below).
-	  ![](../../Pasted%20image%2020260201155241.png)
+	  ![](../Images/Pasted%20image%2020260201155241.png)
 	- This approach can also fail at 'seams' or wall joins:
-	  ![](../../Pasted%20image%2020260201155358.png)
+	  ![](../Images/Pasted%20image%2020260201155358.png)
 	- You can use multi raycasts to help alleviate these issues, but it becomes more expensive 
 	- **Silhouette Extrusion** can be used instead of multiple rays. This involves using another collider based on the silhouette of the object:
-	  ![](../../Pasted%20image%2020260201155621.png)
+	  ![](../Images/Pasted%20image%2020260201155621.png)
 		- This is easy enough with spheres, but harder with other shapes.
 - **Speculative Collision Detection**
 	- Used by PhysX to help alleviate tunneling
@@ -50,7 +50,7 @@
 	- It allows for interpenetration (objects moving into one another), and then correcting with a force.
 	- Only the deepest penetration is considered for the collision
 	- This had issues with oscillation, where one corner of an object would be pushed and another part of the object would then collide with the original object.
-	  ![](../../Pasted%20image%2020260201161432.png)
+	  ![](../Images/Pasted%20image%2020260201161432.png)
 	- This oscillation results in an 'air hockey' affect where things will slide around based on small oscillations.
 	- This was a decent solution for destruction mechanics, but not an overall physics simulation.
 - **Improvements on Penalty Force:**
@@ -64,7 +64,7 @@
 - **Real Time Solutions**
 	- Based on the Linear-Complementary Problem (LCP) with Jacobian constraints (not important to know the math)
 	- This method applies corrective sequential impulses for each contact point independently, then determines the error for each contact if all corrections have been applied
-	- ![](../../Pasted%20image%2020260201163729.png)
+	- ![](../Images/Pasted%20image%2020260201163729.png)
 - **Forces**
 	- The most common in video games is gravity
 	- Constantly applied
