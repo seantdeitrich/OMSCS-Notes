@@ -1,0 +1,73 @@
+## Breadth First Search
+- Completed by expanding the root node, then all of its children, and so on (visit each immediate child of each node before going deeper into the tree)
+- Can return a good result if all edges are the same weight or unweighted
+- Needs a queue structure, a way to track what nodes have been visited, and node metadata for what node led to it `fromNode`
+- Needs two sets to distinguish open nodes from closed ones
+- Algorithm Basics:
+	- Put the starting node into a queue
+	- Repeat while the queue is not empty:
+	    - Remove the first node from the queue (current node)
+	    - Check all neighboring nodes connected to it
+	    - For each neighbor:
+	        - If it is the goal, stop searching
+	        - If it has not been visited:
+	            - Mark it as visited
+	            - Store which node it came from (`fromNode`)
+	            - Add it to the queue
+	- Continue until the goal is found or there are no more nodes to check
+	- Once the goal is found, add it to a list
+		- Work backwards from the goal selecting the source `fromNode`
+		- Reverse the list to get the actual path (since you're building it backwards using `fromNode`)
+- BFS Is:
+	- Complete - it will always find a solution if there is one
+	- Optimality - Optimal only if all edges have equal weight
+	- Time and Space - O(b^d)
+		- b - Branching Factor
+		- d - shallowest depth for goal node
+## Depth First Search
+- Always expand the node that is deepest in the tree (picking a branch)
+- Needs a stack instead of a queue
+- The path to the goal can be cut off if there is a max search depth
+- Algorithm Basics:
+	- Initialize with the start node in the open stack
+	- Repeat until the open stack is empty:
+		- Pop the current node from the open stack
+		- Query all edges of the current node
+		- If any edge is the goal, break
+		- Push any edge nodes if they're not in the closed set (or open stack) 
+		- Close the current node
+- Can be used in games for generating mazes or including wandering in pathfinding
+- DFS is:
+	- Complete - Will always find a solution if there is one
+	- Optimality - Not optimal
+	- Time - O(m) where m is the max node depth
+	- Space - O(bm)  or O(b^m)
+## Dijkstra's Algorithm
+- Revises BFS to properly deal with varying edge weights
+- Keeps track of `costSoFar` at each node as a running total
+- Expand nodes with the lowest costSoFar each iteration
+- Special consideration: 
+	- If an open node is revisited from a different `fromNode`, then you need to check if the original route or the new route is shorter
+	- In other words, if two branches connect at one node, check which branch is shorter
+- Weights must be positive
+- ![](../Images/Pasted%20image%2020260526181516.png)
+- Dijkstra's is:
+	- Complete and Optimal
+## Greedy Search
+- This is the first heuristic (informed search)
+- Greedy search tries to expand towards the goal instead of searching equally in all directions
+- Expands and makes the current node the one that is the closest to the goal
+- Gives up if there is no closer node from the current node to avoid an infinite loop:
+	- ![](../Images/Pasted%20image%2020260526182245.png)
+- Not a complete algorithm (will not always find a solution if there is one)
+## Greedy Best First Search
+- Improvement to simple greedy search by adding metadata similar to Djikstras and BFS/DFS
+- GBFS can safely explore away from the goal when closer options are exhausted, but it can't correct its path information because it does not track costSoFar
+- Complete for finite graphs
+- Optimal but only if all edges are equal weight
+- Good heuristics can reduce complexity substantially
+## A Star
+- Combines Dijkstra's and Greedy Search
+- Select nodes on a combined heuristic of costSoFar and the heuristic estimate to goal (distance)
+- ![](../Images/Pasted%20image%2020260530111303.png)
+- 

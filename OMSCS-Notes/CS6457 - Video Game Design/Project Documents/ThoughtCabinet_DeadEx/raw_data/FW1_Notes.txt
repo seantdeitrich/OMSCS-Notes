@@ -1,0 +1,74 @@
+NOTES FW01
+
+Start timer
+Click start is buggy
+Start intro is funny, death funny
+no sound yet
+
+Skin tone doesn't match the mail lich figure
+
+Needed to guide by pressing E on the dialogue
+Likes the dialogue
+
+3:30 done with dialouge
+
+
+Start/Level1
+
+Moving is fine trying to click
+E is interact, questioning the package health bar
+No indicator on the pick up of the stamp, but picks up all stamps
+cone of vision funny throught he wall, testing it through the wall
+Ghost can not enter the hideout spot
+Doesnt realize they are stamps but knows they are collectable
+learns about running at 6:30 just after leaving the ghost area
+leanrs the box health by falling off the gap
+Fell to many times
+Returned to office
+Gave a nudge that there were more controls
+Learns throw with f at 11:11
+learns far recall at 12:00, the design is a little confusing 
+maybe i can jump 13:30
+I mention "try holding R"
+Noticed the out of bounds timer
+Recalls wrong way and dies before the gap
+crosses gap at 15:36
+16:35 makes it to the end of the Level1
+
+succeeded
+1:29
+11/13 collectables
+90% package
+
+
+Level2
+Started ice level 18:23
+great start as ice level is annoying LOL
+utilizing the recall mechanics alot more on ice level
+started maze 20:50
+got all maze stamps
+finished level at 21:30
+
+3:16
+11/19
+90%
+
+
+Suprisinly very fluid
+missing context ie tutorial
+Dialouge feels like it corrals into one choice
+Sound would be cool
+Stop vision cone on the walls
+
+Didnt use the package to attack the ghosts
+Total time 25:13
+
+Doesnt want to throw because it take Damage
+Package is very fragile
+feels need to protect the package
+Liked the jump on level 1,
+No incentive for the stamps at the moment
+
+Make hideout opaque when you go in
+
+The speed run over walls in very interesting

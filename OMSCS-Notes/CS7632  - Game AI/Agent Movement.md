@@ -1,0 +1,42 @@
+- For calculating a displacement there are two options, the traditional kinematic approach and euler's method:
+	- The kinematic approach uses $x = x_0 + v*t + (1/2)*a*t^2$
+	- Euler's method uses $x = x + v*dt$ which is an integration approach that allows for a changing (non-constant velocity)
+- **Discrete Movement**
+	- When the agent can traverse from one discrete location to the next
+	- Straightforward movement patterns
+	- Often coupled with turn based time updates, or slow automatic updates
+- **Continuous Movement**
+	- Allows for the agent to move variable amounts in one or more directions
+	- Technically still discrete in a mathematical sense
+- In geometry, we define a position with a vector relative to an origin
+	- 2D space is usually used to define an agent position
+- Agents are normally associated with a 2D or 3D graphical model that occupies space, but most movement models work with points
+- You can calculate vectors between targets, but usually going instantly to the target would not make for a compelling game
+- You can't always count on your simulation running at an exact frame rate
+	- Instead of fixed time intervals you can multiply by delta time
+- **Statics**
+	- So far agent movement algorithms act only on a position vector
+	- Statics are data that are maintained as state information about the agent 
+		- Orientation can be added to separate orientation from movement
+		- Usually stored as a unit vector or angle (quaternion)
+		- Atan2 is good convenience function to get the angle between two entities
+	- If the agent is at the target, then it's possible for the orientation vector to have 0 length, so a fallback is needed
+	- Usually handled by using the last known good orientation vector, or a radius
+	- You can also include rotation speeds (angular velocity) towards the target orientation vector for more realistic movement
+		- Can sometimes look awkward with sliding movement if not done well
+- Kinematic Fleeing
+	- Same calculations but flip the relative position vector (B-A instead of A-B)
+	- Otherwise uses the same calculation
+- Kinematic Arriving
+	- As the agent gets closer to the target, vectors will get short
+	- Seeking algorithms as is won't work as expected due to overshooting and wiggling around the goal
+	- Use a capture radius or slow down on arriving
+	- Modify the seek algorithm to check for the magnitude of vector BA and compare it to the capture radius, stopping if it's less than the radius
+	- Divide vector BA by a timeToTarget constant
+		- This is confusing to me, we could just clamp the speed of the agent
+- Kinematic Wandering
+	- To get random wandering we can rely on the orientation vector, with time based random changes to it
+- Kinematic Path Following
+	- Just use the seek algorithm for each waypoint, but use a capture radius to avoid backtracking or wiggling at each waypoint
+	- A downside to this is that the agent might not reach the point if the capture radius is too large
+- These movement algorithms will be revisited in Steering Behaviors

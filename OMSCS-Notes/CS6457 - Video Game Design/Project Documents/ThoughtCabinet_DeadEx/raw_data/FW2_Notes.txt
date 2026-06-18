@@ -1,0 +1,49 @@
+NOTES FW02
+
+
+No options swap between screen
+No sound at the moment
+Tried pressing enter to move dialogue, and clicking
+
+
+Level 
+started 2:20, past dialogue
+Intuitively picked up box with E and moved around
+not sprinting, noticed package it dying when throwing in the gap
+died at 3:40 to ghost
+Died again to ghost at 4:49
+Jump interact with E to toss up, 
+talked about how ghosts get stuck at the doors
+gave control nudge at 6:10
+went back to kill ghost, but the package died to the ghost
+tried placeholder for settings button
+has not found the sprint button
+discovered the momentum mechanic at 9:00
+nudged about a sprint button at 10:00, "probably shouldn't have infinite sprint"
+crossed the gap at 10:30
+getting ALL the stamps including the gap
+Finished level 1 at 11:42
+2:02
+13/13
+100% complete
+messed around in post office area until 13:27
+
+Level2
+unnatural velocity when jumping on ice, jumping breaks slide physics and momentum
+messed with out of bounds running on wall
+tries to enter the house
+exploiting jump to break sliding on the maze portion
+started maze at 16:30
+made to final room at 17:29
+4:00
+17/19
+100%
+
+Boss fights with the box mechanics,
+box clipping in post office on the stairs
+Wish there was more
+Different colored boxes to control the recall of the boxes on different buttons
+Jump upward momentum with box
+add verticality to utilize a box jump
+Camera turn for better viewing
+Throwing package at a target to hit buttons and open door, More puzzles

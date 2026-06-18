@@ -1,0 +1,31 @@
+- **Artificial Intelligence (AI)** has an evolving definition
+- AI in games has many uses
+	- It is built to support the player having fun
+	- Most often controls enemies and pathfinding
+	- Sometimes replaces human players, or aids the current player
+	- AI Cameras
+	- Procedural content generation
+	- Rule based systems
+- Occasionally AI can too easily solve a problem directly, making it easy for it to dominate the player
+	- This leads to the challenge of 'dumbing' the AI down, or coding human approaches for the AI
+- Learning and adaptation can occur in games to provide a more interesting challenge, like playing against bots in fighting games.
+- First person shooters run into the issue of accuracy and prediction with projectile calculations
+- Navigation agents need to account for dynamic and static objects, and take into account unit types and restricted movements
+	- You may want to consider strategies for different units in real time strategy games
+	- AI might also be needed to assist the player like 'attack or defend this location'
+- Indirect control over AI can also be useful in 'God Games' like the sims
+- Sports games use AI for human reactions and interactions
+- It's easy for AI to be too good regarding perception, accuracy, reaction time, etc.
+- It's okay for the AI to cheat as long as the player doesn't feel like it's unfair, and can't tell the AI is cheating
+- It's important to determine where the intelligence lives
+	- Use metadata or queues to distribute intelligence throughout the game, rather than solely depending on the AI
+
+**Game AI Techniques**
+- Agent Movement
+	- Steering Behaviors, Path Planning, Obstacle Avoidance, Group Movement, and Formations
+- Decision Making Frameworks
+	- Finite State Machines, Rule Based Systems, Decision Trees, Behavior Trees
+- Embedding AI Metadata in the game world
+- Procedural Content Generation
+- Fuzzy Logic
+- Case Based Reasoning

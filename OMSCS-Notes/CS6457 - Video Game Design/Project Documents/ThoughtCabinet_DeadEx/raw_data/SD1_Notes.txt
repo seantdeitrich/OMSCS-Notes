@@ -1,0 +1,42 @@
+- "Boom hit by a train!"
+- "Should have audio"
+- Dialogue is highlighted?
+- Confused about clicking dialogue not working (E button hint)
+- She's continuing to click instead of pressing E
+- She's enthusiastically reading the dialogue
+- "Death does not observe the weekend" laugh highlight
+- WASD movement
+- Why does the package have a health bar?
+- She picked it up by discovering the R button
+- Field of vision going through the wall
+- Delivery failed! Attacked by enemy -- no visual feedback on hit?
+- She's hiding in the wall area ghost is stuck
+- Trying to click to throw
+- "Need to avoid bad guys for now"
+- "Where'd the stamp go? Do I need to get all the stamps?"
+- Given hint about using F to throw the package
+- Given hint about R throwing the package
+- Hint given about jump
+- She's struggling with the controls of holding R and jumping at the same time
+- Oddly finicky for a tutorial
+- Tiny gap first please
+- Make it so you can't throw the box over the edge
+- She threw the package at the final NPC
+- 10m to level completion, failed twice
+- "You dropped it at least twice"
+- Final time to completion on level was 2:44
+
+Started the ice level at 11:00m
+- Excited about Christmas theme, looking for my xmas presents
+- She panicked at the room Ice maze at 2m into level
+- "You guys are mean" at the ice maze
+- She found the out of bound timer and was like "oohhhh"
+- She went back and got a nearby collectable
+- Likes the sliding on ice mechanic
+- "Why are they mad at me"
+- Got two collectables on the home platform
+- She's tapping buttons on the ice maze and is overwhelmed
+    - She's 'counterbalancing it' hitting one direction then the opposite direction
+    - Sometimes it moves me and sometimes it doesn't (getting stuck on edges)
+    - "I need a drink after that"
+- Confused about end of level 2 dialogue
