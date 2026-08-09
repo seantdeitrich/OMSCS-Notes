@@ -51,8 +51,10 @@
 | Distribution of Components                   | How to distribute software across the hardware (including both computer and network hardware), how the components communicate, and how middleware can be used to deal with heterogeneous software.                                                                           |
 | Error/Exception Handling and Fault Tolerance | How to prevent, tolerate, and process errors, as well as how to deal with exceptional conditions.                                                                                                                                                                            |
 | Interaction and Presentation                 | Concerned wtih how to structure and organize interactions with users, as well as how to present information. (Model-View-Controller approach is a good example of this). This topic does not specify user interface details, which is the task of the user interface design. |
-| Security                                     | How to prevent unauthorized disclosure, creation, change, deletion, or denial of access to information and other resources. How to tolerate attacks, limiting damage, speed of repair and recovery, etc. Also includes access control and cryptology.                        |
+| Security                                     | How to prevent unauthorized disclosure, creation, change, deletion, or denial of access to information and other resources. How to tolerate attacks, limiting damage, speed of repair and recovery, etc. Also includes access control and cryptology, access control is fundamental, provide least priviledge.                        |
+
 **Software Structure and Architecture**
+- Design is first created, then we studied it to find patterns to describe it. The following structures are "attempts to describe and, and re-use design knowledge."
 - **Views** are specific representations of a partial aspect of a software architecture (self-explanatory).
 	- Logical View - Functional Requirements 
 	- Process View - Concurrency Issues
@@ -101,6 +103,7 @@
 	- A good design keeps the information presentation separate from the information itself
 	- The [MVC (Model-View-Controller)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) approach is an effective way to keep information presentation separate from the information being presented
 	- Response time should also be considered (the time between when a user executes a command and the program responds)
+  		- Notify user for successful processes, provide them updates on their execution (ie, progress bar, "request submitted" landing page)
 	- Abstract visualizations can be used when large amounts of information are to be presented
 	- Designers can use color to enhance the interface with the following guidelines:
 		- Limit the number of colors used
@@ -109,6 +112,7 @@
 		- Use color coding in a thoughtful and consistent way
 		- Use colors to facilitate access for people with color blindness or color deficiency (508 compliance)
 		- Don't depend on color alone to convey important information
+    - Information presentation can be both Textual and Graphical, note your graphical design decisions can depend on usability of the user, localization, and numerous other factors just like textual information.
 - **User Interface Design is an Iterative Process** consisting of the following steps:
 	- **User Analysis** - The designer analyzes the user's tasks, the working environment, other software, and how users interact with other people
 	- **Software Prototyping** - Developing prototype software to help users to guide the evolution of the interface
