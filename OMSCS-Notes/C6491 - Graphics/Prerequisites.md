@@ -57,7 +57,4 @@ $$ ||V||^2 = Vx^2+Vy^2+Vz^2$$
 ### Ambiguity of 3D Vectors
 - Can be either right or left handed
 
-## Required Reading Notes
-
-
 
