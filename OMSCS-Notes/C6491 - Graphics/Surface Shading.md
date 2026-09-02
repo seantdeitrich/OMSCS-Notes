@@ -41,12 +41,12 @@ $$c = c_r \cdot c_l \cdot max(0,n \cdot l)$$
 
 ### Ambient Illumination
 Ambient illumination adds a baseline illumination (c<sub>a</sub>) to simulate indirect light and crudely approximate global lighting effects. It often supplements diffuse direct lighting and keeps shadows soft. 
-![](../../Pasted%20image%2020260901185257.png)
+![](../Images/Pasted%20image%2020260901185257.png)
 This method is common and computationally efficient, but doesn't capture reflections properly.
 
 ### Specular Reflections
 Specular reflections occur when light reflects off a surface in a single dominant direction, like a mirror. It produces sharp specular highlights on smooth surfaces, that is visible when the view direction aligns with the angle of reflection of the light source off the surface.
-![](../../Pasted%20image%2020260901185459.png)
+![](../Images/Pasted%20image%2020260901185459.png)
 
 ### Implementing Diffuse and Specular Shading
 - All vectors should be calculated in world space
@@ -73,7 +73,7 @@ $$c = c_r \cdot (c_a+c_l\cdot max(0,n\cdot l)+ c_p\cdot c_l \cdot max(0,e\cdot r
 $$r = -l+2(l\cdot n)n$$
 This is derived geometrically from the light direction (l) and surface normal (n). It is used to determine alignment with the view direction (e dot r). 
 Specular highlights occur when the viewer aligns with the reflection direction.
-![](../../Pasted%20image%2020260901190627.png)
+![](../Images/Pasted%20image%2020260901190627.png)
 
 To derive the reflection vector r, we first need to decompose l, the light vector:
 $$l=l_\parallel+l_\perp$$
@@ -82,7 +82,7 @@ $$l_\parallel = (l\cdot n)n$$
 - *l* perpendicular is computed as:
 $$l_\perp=l-l_\parallel$$
 From here, we can flip the perpendicular component and keep the parallel one unchanged:
-![](../../Pasted%20image%2020260901191042.png)
+![](../Images/Pasted%20image%2020260901191042.png)
 This leads to the following equation:
 $$r = -l+2(l\cdot n)n$$
 

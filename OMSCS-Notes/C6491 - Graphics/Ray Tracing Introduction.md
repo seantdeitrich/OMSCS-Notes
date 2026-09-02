@@ -96,7 +96,7 @@ $$P(0) = E $$
 	- k is the vertical half height of the view plane
 	- $$k = tan(\theta/2)$$
 - If the screen is square, the view plane dimensions are: Height = 2k, Width = 2k
-- ![](../../Pasted%20image%2020260831202037.png)
+- ![](../Images/Pasted%20image%2020260831202037.png)
 - Now map pixel coordinates to world space:
 - $$u = (i - W/2) \cdot 2k/W $$
 - $$v = (j - H/2) \cdot 2k/H $$
