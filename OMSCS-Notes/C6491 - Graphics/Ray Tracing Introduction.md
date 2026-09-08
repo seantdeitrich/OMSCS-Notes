@@ -6,7 +6,6 @@ There are two fundamental approaches to rendering:
 - Image-Order Rendering
 	- Considers which objects in a scene contribute to each pixel in the image
 Rendering must consider direct and indirect lighting, physical properties of objects, and then consider how that information renders to an specific viewport.
-
 ### Object Order Rendering
 In Object Order Rendering we consider the contribution of each object to the view of the scene from the perspective of the observer. We project 3D features of the environment onto the camera / eye.
 - Once we know where the object maps to on an image, we can then paint the appropriate image considering where the object is in relation to light sources
@@ -17,7 +16,6 @@ In Object Order Rendering we consider the contribution of each object to the vie
 **Painter's Algorithm** sorts all objects in the scene by the depth from the camera and paints in order from the farthest to the nearest. Objects further away are painted first, and closer objects are painted on top of them.
 
 **Z-Buffer** maintains a depth buffer that records the depth of the closest objects at each pixel. As each object is processed its depth is compared to the current value in the buffer, and the new image is rendered only if the new value is closer.
-
 ### Image-Order Rendering
 Analyzes each point in a cameras image plane, and then determining which objects contribute to each point. The camera view is split up into a raster (grid of pixels), and we can determine the path that light would take from the scene to that pixel. Whichever object surface is closest to the camera along the path will be the one used.
 - All objects in the scene must be considered for each pixel, which leads to problems with efficiency and scaling
@@ -25,11 +23,9 @@ Analyzes each point in a cameras image plane, and then determining which objects
 - Generates images that are potentially more accurate than Object-Order Rendering
 - Ray Tracing is an example of Image-Order Rendering
 - Known for being computationally expensive
-
 ## Ray Tracing Concepts
 ### Rays
 Rays are situation vectors that originate from the camera or eye. They are referred to as viewing rays, primary rays, or camera rays. They are directed according to path from pixel sensor of camera or eye to the scene geometry. 
-
 ### Process
 1. Ray Generation
 2. Ray Intersection
@@ -46,13 +42,11 @@ for each pixel do
 ```
 
 Real world cameras require a pinhole or lens to be between the sensor and the scene, which inverts the image. A virtual camera can be simplified conceptually. The mathematics are also simplified since we do not need to worry about inverting the image.
-
 ### Ray Generation
 A view ray can be described with a vector -
 - Assume the camera / eye position is known
 - We know a point on the image plane that corresponds with a pixel
 - This view ray is a relative vector from the eye to the pixel, however this only gives us a vector, and we need a situated vector (a vector at a certain location in space)
-
 #### Math for Ray Generation
 - u<sub>i</sub> is the center coordinate of the x pixel, and v<sub>j</sub> is the center coordinate of the y pixel
 - $$u_i = l + (r-l)(i+0.5)/n_x$$

@@ -82,8 +82,7 @@ function generateRay(camera, outputWidth, outputHeight, x, y):
 - Sign of the vertical term — because image-space `y` grows downward but `camUp` points up, one of
   the two mappings needs a flip. The PDF's hint applies literally here: if the image renders
   upside-down or mirrored, flip a sign in this step.
-- Normalizing the result. Don't — `generateRay_unnormalized` in the test file specifically checks
-  that corner-pixel rays have magnitude `> 1`.
+- Normalizing the result. Don't — `generateRay_unnormalized` in the test file specifically checks that corner-pixel rays have magnitude `> 1`.
 
 **Verify**:
 - Run `generateRay_basic` — center pixel direction should point along `camFwd`.
