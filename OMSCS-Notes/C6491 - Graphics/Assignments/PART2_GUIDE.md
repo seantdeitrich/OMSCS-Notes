@@ -34,16 +34,16 @@ need to know or care which kind of surface it's looking at.
 
 ## 2. API cheat sheet
 
-| Class | Relevant members |
-|---|---|
-| `Triangle` | `getV1()/getV2()/getV3()` (copies) |
-| `SurfaceInstance` | `getSurface()` (underlying), `getTransform()`, `getTransformInv()` (both `PMatrix3D` copies) |
-| `BVHNode` | `new BVHNode(left, right, boundingBox)`, `getLeftNode()/getRightNode()`, `getBoundingBox()` |
-| `Light` | `getPosition()`, `getColor()` — a point light |
-| `Scene` | adds `getLights()` (`ArrayList<Light>`) on top of Part 1's members |
-| `Material` | adds `getSpecularColor()`, `getReflectance()`, `getGlossRadius()`, `getSpecPow()` (unused until Part 3) |
-| `Color` | `add`, `mult`, `blend(color, alpha)` = `alpha*this + (1-alpha)*color`, `average(ArrayList<Color>)` |
-| `MathHelper` | `nanMin`/`nanMax` (from Part 1) |
+| Class             | Relevant members                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------------------- |
+| `Triangle`        | `getV1()/getV2()/getV3()` (copies)                                                                      |
+| `SurfaceInstance` | `getSurface()` (underlying), `getTransform()`, `getTransformInv()` (both `PMatrix3D` copies)            |
+| `BVHNode`         | `new BVHNode(left, right, boundingBox)`, `getLeftNode()/getRightNode()`, `getBoundingBox()`             |
+| `Light`           | `getPosition()`, `getColor()` — a point light                                                           |
+| `Scene`           | adds `getLights()` (`ArrayList<Light>`) on top of Part 1's members                                      |
+| `Material`        | adds `getSpecularColor()`, `getReflectance()`, `getGlossRadius()`, `getSpecPow()` (unused until Part 3) |
+| `Color`           | `add`, `mult`, `blend(color, alpha)` = `alpha*this + (1-alpha)*color`, `average(ArrayList<Color>)`      |
+| `MathHelper`      | `nanMin`/`nanMax` (from Part 1)                                                                         |
 
 ## 3. `testTriangleIntersection`
 
