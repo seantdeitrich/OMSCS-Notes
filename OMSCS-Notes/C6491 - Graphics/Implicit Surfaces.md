@@ -131,10 +131,10 @@ Marching squares is the 2D equivalent of marching cubes. The goal is to extract 
 - A vertex is outside if *f(p)* < 0
 There are 16 possible cases, but rotational symmetry reduces them to 4 unique cases. The method interpolates along edges to construct the contour.
 ![](../Images/Pasted%20image%2020261027175149.png)
-![](../../Pasted%20image%2020261027175306.png)
+![](../Images/Pasted%20image%2020261027175306.png)
 In the above image we see 2D cells with values at their corners. Interpolated points are found where the scalar field changes sign at each cell edge. These points are where the scalar value is zero. The interpolated points are then connected to form polygons, which create the contour around the positive values in the scalar field.
 ## Marching Cubes
-Marching Cubes extends the squares to three dimensions. Each cube in the grid is classified based on which of its eight vertices are inside or outside. There are 256 possible combinations, but symmetry and transforms reduce these cases to 15 unique configurations. ![](../../Pasted%20image%2020261027175728.png)
+Marching Cubes extends the squares to three dimensions. Each cube in the grid is classified based on which of its eight vertices are inside or outside. There are 256 possible combinations, but symmetry and transforms reduce these cases to 15 unique configurations. ![](../Images/Pasted%20image%2020261027175728.png)
 Lookup tables store the polygonal patches for each case allowing for efficient extraction. Marching cubes is widely used in medical imaging such as MRI and CT scans, as well as in scientific visualization. 
 ## Dual Contouring
 Dual Contouring improves edge preservation in marching cubes. It places vertices inside each grid cell instead of only interpolating along edges. Hermite data (surface normals) are used to detect and preserve sharp edges. This allows for more designer control, allowing selection of which edges remain sharp or smooth. Dual Contouring is well suited for CAD models, mechanical parts, and structured geometry. It improves representation of hard surface models in implicit surfaces.
